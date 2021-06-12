@@ -6,12 +6,29 @@ namespace Library
     {
         static void Main(string[] args)
         {
-            Service service = new Service();
+            InputReader input = new();
 
-            Book testBook = new Book { Name="Name1", Author="Author1", Category="Cat1", Language="Lang1", PublicationDate=DateTime.Today, ISBN="0000000000000" };
-            Book testBook2 = new Book { Name = "Name2", Author = "Author2", Category = "Cat2", Language = "Lang2", PublicationDate = DateTime.Today, ISBN = "0000000000001" };
+            Console.WriteLine("Welcome to the Visma book library!\nWhat would you like to do?\n");
+            Console.WriteLine("1 - Add a new book to the library");
+            Console.WriteLine("2 - Borrow a book");
+            Console.WriteLine("3 - Return a book");
+            Console.WriteLine("4 - Filter the book list");
+            Console.WriteLine("5 - Remove a book from the library");
 
-            service.AddNewBook(testBook2);
+            Console.Write("\nPlease enter a matching number: ");
+            int option = input.Option();
+
+            Service service = new();
+            switch (option)
+            {
+                case 1:
+                    Console.WriteLine("You have chosen adding a new book. Please enter information about the book:");
+                    service.AddNewBook(input.BookInfo());
+                    Console.WriteLine("A new book has been added.");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

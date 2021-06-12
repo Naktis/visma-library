@@ -8,12 +8,22 @@ namespace Library
 {
     class Book
     {
-        public string Name { get; set; }
-        public string Author { get; set; }
-        public string Category { get; set; }
-        public string Language { get; set; }
-        public DateTime PublicationDate { get; set; }
-        public string ISBN { get; set; }
-        public bool IsAvailable { get; set; } = true;
+        public Book(string name, string author, string category, string language, DateTime publicationDate, string isbn)
+        {
+            Name = name;
+            Author = author;
+            Category = category;
+            Language = language;
+            PublicationDate = publicationDate;
+            ISBN = isbn;
+        }
+        public string Name { get; }
+        public string Author { get; }
+        public string Category { get; }
+        public string Language { get; }
+        public DateTime PublicationDate { get; }
+        public string ISBN { get; }
+        public bool Available { get; set; } = true;
+        public DateTime TakenUntil { get; set; }
     }
 }
