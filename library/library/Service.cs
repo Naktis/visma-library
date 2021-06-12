@@ -9,14 +9,13 @@ using System.IO;
 
 namespace Library
 {
-    class Service
+    public class Service
     {
         public void AddNewBook(Book newBook)
         {
-            string path = "../../../Data/books.json";
-
-            List<Book> books = new List<Book>();
+            List<Book> books = new();
             string jsonData;
+            string path = "../../../Data/books.json";
 
             if (File.Exists(path))
             { 
@@ -26,7 +25,7 @@ namespace Library
 
             books.Add(newBook);
 
-            JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
+            JsonSerializerOptions options = new() { WriteIndented = true };
             jsonData = JsonSerializer.Serialize(books, options);
             File.WriteAllText(path, jsonData);
         }
