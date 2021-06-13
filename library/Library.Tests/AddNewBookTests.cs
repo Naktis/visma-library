@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace Library.Test
+namespace Library.Tests
 {
     public class AddNewBookTests
     {
