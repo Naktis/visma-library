@@ -23,7 +23,7 @@ namespace Library
         public string Language { get; }
         public DateTime PublicationDate { get; }
         public string ISBN { get; }
-        public DateTime ReturnDate { get; set; } = DateTime.MinValue;
+        public DateTime ReturnDate { get; set; }
         public string Reader { get; set; }
     }
 }

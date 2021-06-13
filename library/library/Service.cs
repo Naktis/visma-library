@@ -53,7 +53,7 @@ namespace Library
 
             Book bookMatch = books.FirstOrDefault(x => x.Name == bookName);
 
-            if (bookMatch != null && bookMatch.ReturnDate == DateTime.MinValue)
+            if (bookMatch != null && bookMatch.Reader == null)
                 return true;
             else
                 return false;

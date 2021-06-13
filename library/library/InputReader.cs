@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    class InputReader
+    public class InputReader
     {
         private readonly Service _validator;
 
