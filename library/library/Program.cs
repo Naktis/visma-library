@@ -7,15 +7,14 @@ namespace Library
     {
         static void Main(string[] args)
         {
-            InputReader input = new();
-            bool moreActions;
+            UserInputReader userInput = new();
+            ConstraintValidator validator = new();
+            Commander commander = new();
 
             Console.WriteLine("Welcome to the Visma book library!\nWhat would you like to do?");
 
             do
             {
-                moreActions = false;
-
                 Console.WriteLine("\n1 - Add a new book to the library");
                 Console.WriteLine("2 - Borrow a book");
                 Console.WriteLine("3 - Return a book");
@@ -23,58 +22,58 @@ namespace Library
                 Console.WriteLine("5 - Remove a book from the library");
 
                 Console.Write("\nPlease enter a matching number: ");
-                int option = input.Option();
+                int option = userInput.Option();
 
-                Service service = new();
-                string bookName, reader;
+                string bookName, readerName;
                 switch (option)
                 {
                     case 1:
                         Console.WriteLine("\nYou have chosen adding a new book. Please enter information about the book:");
-                        service.AddNewBook(input.BookInfo());
+                        commander.AddNewBook(userInput.BookInfo());
                         Console.WriteLine("A new book has been added.");
                         break;
+
                     case 2:
                         Console.WriteLine("\nYou have chosen borrowing a book. Maximum period of keeping the book is 2 months.\n" +
                                           "Please enter information about the order:");
 
-                        reader = input.ReaderToBorrowBook();
-                        if (reader == null)
+                        readerName = userInput.ReaderToBorrowBook();
+                        if (readerName == null)
                             break;
 
-                        bookName = input.BookNameToBorrow();
+                        bookName = userInput.BookNameToBorrow();
                         if (bookName == "exit")
                             break;
 
-                        DateTime returnDate = input.ReturnDate();
-                        service.BorrowBook(bookName, reader, returnDate);
-                        Console.WriteLine(bookName + " has been borrowed to " + reader);
+                        DateTime returnDate = userInput.ReturnDate();
+                        commander.BorrowBook(bookName, readerName, returnDate);
+                        Console.WriteLine(bookName + " has been borrowed to " + readerName);
                         break;
+
                     case 3:
                         Console.WriteLine("\nYou have chosen returning a book. Please enter information about your order:");
 
-                        reader = input.ReaderToReturnBook();
-                        if (reader == null)
+                        readerName = userInput.ReaderToReturnBook();
+                        if (readerName == null)
                             break;
 
-                        List<Book> readerBooks = service.GetReaderBooks(reader);
+                        List<Book> readerBooks = validator.GetReaderBooks(readerName);
                         if(readerBooks.Count == 0)
                         {
                             Console.WriteLine("\nYou don't have any borrowed books. Try borrowing one.");
                             break;
                         }
 
-                        bookName = input.BookNameToReturn(readerBooks);
+                        bookName = userInput.BookNameToReturn(readerBooks);
 
-                        service.ReturnBook(bookName, reader);
+                        commander.ReturnBook(bookName, readerName);
                         Console.WriteLine(bookName + " has been returned");
                         break;
+
                     default:
                         break;
                 }
-
-                moreActions = input.MoreActions();
-            } while (moreActions);
+            } while (userInput.MoreActions());
         }
     }
 }

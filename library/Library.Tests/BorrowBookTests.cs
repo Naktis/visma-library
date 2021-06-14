@@ -15,7 +15,7 @@ namespace Library.Tests
         public void BorrowBook_AllValid()
         {
             // Arrange
-            Service service = new();
+            Commander commander = new();
             string path = "../../../Data/books.json";
             JsonSerializerOptions options = new() { WriteIndented = true };
 
@@ -32,7 +32,7 @@ namespace Library.Tests
             string jsonExpected = JsonSerializer.Serialize(bookList, options);
 
             // Act
-            service.BorrowBook(bookList[1].Name, bookList[1].Reader, bookList[1].ReturnDate);
+            commander.BorrowBook(bookList[1].Name, bookList[1].Reader, bookList[1].ReturnDate);
             string jsonActual = File.ReadAllText(path);
             File.Delete(path);
 
@@ -44,7 +44,7 @@ namespace Library.Tests
         public void BorrowBook_DisallowBorrowingMoreThan3Books()
         {
             // Arrange
-            Service service = new();
+            ConstraintValidator validator = new();
             string path = "../../../Data/books.json";
             JsonSerializerOptions options = new() { WriteIndented = true };
 
@@ -56,7 +56,7 @@ namespace Library.Tests
             File.WriteAllText(path, jsonBookList);
 
             // Act
-            bool readerBlocked = service.BookLimitReached(bookList[0].Reader);
+            bool readerBlocked = validator.BookLimitReached(bookList[0].Reader);
             File.Delete(path);
 
             // Assert
@@ -67,7 +67,7 @@ namespace Library.Tests
         public void BorrowBook_CantBorrowNonexistantBook()
         {
             // Arrange
-            Service service = new();
+            ConstraintValidator validator = new();
             string path = "../../../Data/books.json";
             JsonSerializerOptions options = new() { WriteIndented = true };
 
@@ -77,7 +77,7 @@ namespace Library.Tests
             File.WriteAllText(path, jsonBookList);
 
             // Act
-            bool bookExists = service.BookExistsAvailable("Name2");
+            bool bookExists = validator.BookExistsAvailable("Name2");
             File.Delete(path);
 
             // Assert
@@ -88,7 +88,7 @@ namespace Library.Tests
         public void BorrowBook_CantBorrowAlreadyTakenBook()
         {
             // Arrange
-            Service service = new();
+            ConstraintValidator validator = new();
             string path = "../../../Data/books.json";
             JsonSerializerOptions options = new() { WriteIndented = true };
 
@@ -99,7 +99,7 @@ namespace Library.Tests
             File.WriteAllText(path, jsonBookList);
 
             // Act
-            bool bookAvailable = service.BookExistsAvailable("Name");
+            bool bookAvailable = validator.BookExistsAvailable("Name");
             File.Delete(path);
 
             // Assert

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    public class InputReader
+    public class UserInputReader
     {
-        private readonly Service _validator;
+        private readonly ConstraintValidator _validator;
 
-        public InputReader()
+        public UserInputReader()
         {
-            _validator = new Service();
+            _validator = new();
         }
 
         public int Option()
