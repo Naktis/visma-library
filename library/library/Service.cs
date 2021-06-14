@@ -20,7 +20,7 @@ namespace Library
             SaveBookList(books);
         }
 
-        public void BorrowBook(string bookName, string reader, DateTime returnDate)
+        public void BorrowBook(string bookName, string readerName, DateTime returnDate)
         {
             List<Book> books = GetBookList();
 
@@ -28,7 +28,7 @@ namespace Library
 
             if (book != null)
             {
-                book.Reader = reader;
+                book.Reader = readerName;
                 book.ReturnDate = returnDate;
             }
 
@@ -57,6 +57,36 @@ namespace Library
                 return true;
             else
                 return false;
+        }
+
+        public bool ReaderHasBooks(string readerName)
+        {
+            List<Book> books = GetBookList();
+
+            Book bookMatch = books.FirstOrDefault(x => x.Reader == readerName);
+
+            if (bookMatch != null)
+                return true;
+            else
+                return false;
+        }
+
+        public List<Book> GetReaderBooks(string readerName)
+        {
+            List<Book> books = GetBookList();
+
+            return books.FindAll(x => x.Reader == readerName);
+        }
+
+        public void ReturnBook(string bookName, string readerName)
+        {
+            List<Book> books = GetBookList();
+            Book bookMatch = books.FirstOrDefault(x => x.Reader == readerName && x.Name == bookName);
+
+            bookMatch.Reader = null;
+            bookMatch.ReturnDate = DateTime.MinValue;
+
+            SaveBookList(books);
         }
 
         private List<Book> GetBookList()

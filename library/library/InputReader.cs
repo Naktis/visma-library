@@ -35,14 +35,10 @@ namespace Library
 
         public Book BookInfo()
         {
-            Console.Write("Name: ");
-            string name = Console.ReadLine();
-            Console.Write("Author: ");
-            string author = Console.ReadLine();
-            Console.Write("Category: ");
-            string category = Console.ReadLine();
-            Console.Write("Language: ");
-            string language = Console.ReadLine();
+            string name = ReadString("Name: ");
+            string author = ReadString("Author: ");
+            string category = ReadString("Category: ");
+            string language = ReadString("Language: ");
 
             Console.Write("Publication date (YYYY-MM-DD): ");
             DateTime date;
@@ -55,16 +51,14 @@ namespace Library
                 Console.Write("Entered date is invalid. Please try again: ");
             } while (true);
 
-            Console.Write("ISBN: ");
-            string isbn = Console.ReadLine();
+            string isbn = ReadString("ISBN: ");
 
             return new Book(name, author, category, language, date, isbn);
         }
 
-        public string Reader()
+        public string ReaderToBorrowBook()
         {
-            Console.Write("Your name: ");
-            string name = Console.ReadLine();
+            string name = ReadString("Your name: ");
 
             if (!_validator.BookLimitReached(name))
             {
@@ -76,23 +70,58 @@ namespace Library
                 return null;
             }
         }
-        public string BookName()
-        {
-            string name;
-            Console.Write("Book name: ");
 
+        public string ReaderToReturnBook()
+        {
+            return ReadString("Your name: ");
+        }
+
+        public string BookNameToBorrow()
+        {
+            Console.Write("Book name: ");
+            string name;
             do
             {
                 name = Console.ReadLine();
                 if (_validator.BookExistsAvailable(name) || name == "exit")
                     break;
                 else
-                    Console.WriteLine("This book hasn't been added to the library. " +
-                                      "Try another book name or exit the action (type exit):");
+                    Console.Write("This book hasn't been added to the library. " +
+                                  "Try another book name or exit the action (type exit):");
             } while (true);
 
             return name;
         }
+
+        public string BookNameToReturn(List<Book> books)
+        {
+            Console.WriteLine("\nYou have borrowed the following books: ");
+
+            foreach(Book book in books)
+            {
+                Console.WriteLine(book.Name);
+            }
+
+            Console.Write("\nEnter the name of the book you want to return: ");
+            Book bookMatch;
+            string name;
+            do
+            {
+                name = Console.ReadLine();
+                bookMatch = books.FirstOrDefault(x => x.Name == name);
+
+                if (bookMatch != null)
+                    break;
+                else
+                    Console.Write("You haven't borrowed this book. Try again: ");
+            } while (true);
+
+            if (DateTime.Today > bookMatch.ReturnDate)
+                Console.WriteLine("\nBetter late than never, huh?");
+
+            return name;
+        }
+
         public DateTime ReturnDate()
         {
             int maxMonth = (DateTime.Today.Month + 2) % 12;
@@ -125,12 +154,16 @@ namespace Library
 
         public bool MoreActions()
         {
-            Console.Write("Do you want to do more things in the library? (y/n) ");
-
-            if (Console.ReadLine() == "y")
+            if (ReadString("\nDo you want to do more things in the library? (y/n) ") == "y")
                 return true;
             else
                 return false;
+        }
+
+        private string ReadString(string label)
+        {
+            Console.Write(label);
+            return Console.ReadLine();
         }
     }
 }
