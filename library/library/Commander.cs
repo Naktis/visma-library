@@ -25,7 +25,6 @@ namespace Library
         public void BorrowBook(string bookName, string readerName, DateTime returnDate)
         {
             List<Book> books = IO.GetBookList();
-
             Book book = books.FirstOrDefault(x => x.Name == bookName);
 
             if (book != null)
@@ -42,10 +41,31 @@ namespace Library
             List<Book> books = IO.GetBookList();
             Book bookMatch = books.FirstOrDefault(x => x.Reader == readerName && x.Name == bookName);
 
-            bookMatch.Reader = null;
-            bookMatch.ReturnDate = DateTime.MinValue;
-
+            if (bookMatch != null)
+            {
+                bookMatch.Reader = null;
+                bookMatch.ReturnDate = DateTime.MinValue;
+            }
+                
             IO.SaveBookList(books);
+        }
+
+        public List<Book> ListBooks(int option, string label)
+        {
+            List<Book> books = IO.GetBookList();
+            List<Book> filteredBooks = option switch
+            {
+                2 => books.FindAll(x => x.Author == label),
+                3 => books.FindAll(x => x.Category == label),
+                4 => books.FindAll(x => x.Language == label),
+                5 => books.FindAll(x => x.ISBN == label),
+                6 => books.FindAll(x => x.Name == label),
+                7 => books.FindAll(x => x.Reader == null), // Available
+                8 => books.FindAll(x => x.Reader != null), // Taken
+                9 => books.FindAll(x => x.Reader == label),
+                _ => books,
+            };
+            return filteredBooks;
         }
     }
 }

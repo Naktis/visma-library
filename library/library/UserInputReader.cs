@@ -17,6 +17,14 @@ namespace Library
 
         public int Option()
         {
+            Console.WriteLine("\n1 - Add a new book to the library");
+            Console.WriteLine("2 - Borrow a book");
+            Console.WriteLine("3 - Return a book");
+            Console.WriteLine("4 - List and filter the book list");
+            Console.WriteLine("5 - Remove a book from the library");
+
+            Console.Write("\nPlease enter a matching number: ");
+
             int option;
             do
             {
@@ -87,7 +95,7 @@ namespace Library
                     break;
                 else
                     Console.Write("This book hasn't been added to the library. " +
-                                  "Try another book name or exit the action (type exit):");
+                                  "Try another book name or exit the action (type exit): ");
             } while (true);
 
             return name;
@@ -158,6 +166,68 @@ namespace Library
                 return true;
             else
                 return false;
+        }
+
+        public int Filter()
+        {
+            Console.WriteLine("\n1 - No filter");
+            Console.WriteLine("2 - Filter by author");
+            Console.WriteLine("3 - Filter by category");
+            Console.WriteLine("4 - Filter by language");
+            Console.WriteLine("5 - Filter by ISBN");
+            Console.WriteLine("6 - Filter by name");
+            Console.WriteLine("7 - Filter taken or available books");
+
+            Console.Write("\nPlease enter a matching number: ");
+
+            int option;
+            do
+            {
+                // Converts the input into int if possible (if not - returns false)
+                if (int.TryParse(Console.ReadLine(), out option))
+                {
+                    if (option >= 1 && option <= 7)
+                    {
+                        break;
+                    }
+                }
+                Console.Write("This option doesn't exist. Please enter a valid number: ");
+            } while (true);
+
+            if (option == 7) // Taken or available
+            {
+                Console.WriteLine("Please choose book availability");
+                Console.WriteLine("\n1 - Available");
+                Console.WriteLine("2 - Taken");
+
+                do
+                {
+                    if (int.TryParse(Console.ReadLine(), out option))
+                    {
+                        if (option == 1) // Available
+                        {
+                            option = 7;  // Number for commander class switch
+                            break;
+                        }
+                        if (option == 2)
+                        {
+                            option = 8;
+                            break;
+                        }
+                    }
+                    Console.Write("This option doesn't exist. Please enter a valid number: ");
+                } while (true);
+            }
+
+            return option;
+        }
+
+        public string FilterLabel(int option)
+        {
+            if (option == 1 || option == 7 || option == 8) // No filter, available and taken
+                return "";
+            else
+                return ReadString("Filter value: ");
         }
 
         private string ReadString(string label)

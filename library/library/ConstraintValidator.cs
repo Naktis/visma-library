@@ -34,9 +34,9 @@ namespace Library
         {
             List<Book> books = IO.GetBookList();
 
-            Book bookMatch = books.FirstOrDefault(x => x.Name == bookName);
+            Book bookMatch = books.FirstOrDefault(x => x.Name == bookName && x.Reader == null);
 
-            if (bookMatch != null && bookMatch.Reader == null)
+            if (bookMatch != null)
                 return true;
             else
                 return false;
@@ -52,13 +52,6 @@ namespace Library
                 return true;
             else
                 return false;
-        }
-
-        public List<Book> GetReaderBooks(string readerName)
-        {
-            List<Book> books = IO.GetBookList();
-
-            return books.FindAll(x => x.Reader == readerName);
         }
     }
 }
