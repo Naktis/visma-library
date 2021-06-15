@@ -1,0 +1,82 @@
+[
+  {
+    "Name": "Da Vinci Code",
+    "Author": "Dan Brown",
+    "Category": "Crime",
+    "Language": "English",
+    "PublicationDate": "2005-12-02T00:00:00",
+    "ISBN": "1235012010121",
+    "ReturnDate": "0001-01-01T00:00:00",
+    "Reader": null
+  },
+  {
+    "Name": "Hannibal",
+    "Author": "Thomas Harris",
+    "Category": "Crime",
+    "Language": "French",
+    "PublicationDate": "2013-02-16T00:00:00",
+    "ISBN": "5554681234154",
+    "ReturnDate": "0001-01-01T00:00:00",
+    "Reader": null
+  },
+  {
+    "Name": "The Book Thief",
+    "Author": "Markus Zusak",
+    "Category": "General",
+    "Language": "German",
+    "PublicationDate": "2015-09-11T00:00:00",
+    "ISBN": "5598632412451",
+    "ReturnDate": "2021-07-15T00:00:00+03:00",
+    "Reader": "Andrew"
+  },
+  {
+    "Name": "The Alchemist",
+    "Author": "Paulo Coelho",
+    "Category": "Fantasy",
+    "Language": "Portuguese",
+    "PublicationDate": "1988-01-02T00:00:00",
+    "ISBN": "1234567894512",
+    "ReturnDate": "2021-07-25T00:00:00+03:00",
+    "Reader": "Andrew"
+  },
+  {
+    "Name": "Charlotte\u0027s Web",
+    "Author": "E.B. White",
+    "Category": "Children",
+    "Language": "English",
+    "PublicationDate": "1952-10-16T00:00:00",
+    "ISBN": "5461234568124",
+    "ReturnDate": "0001-01-01T00:00:00",
+    "Reader": null
+  },
+  {
+    "Name": "Angels and Demons",
+    "Author": "Dan Brown",
+    "Category": "Mystery",
+    "Language": "English",
+    "PublicationDate": "2000-03-24T00:00:00",
+    "ISBN": "1232120124102",
+    "ReturnDate": "0001-01-01T00:00:00",
+    "Reader": null
+  },
+  {
+    "Name": "Da Vinci Code",
+    "Author": "Dan Brown",
+    "Category": "Crime",
+    "Language": "French",
+    "PublicationDate": "2007-01-07T00:00:00",
+    "ISBN": "4568123512451",
+    "ReturnDate": "0001-01-01T00:00:00",
+    "Reader": null
+  },
+  {
+    "Name": "Gone Girl",
+    "Author": "Gillian Flynn",
+    "Category": "Crime",
+    "Language": "English",
+    "PublicationDate": "2012-04-04T00:00:00",
+    "ISBN": "0012412421321",
+    "ReturnDate": "0001-01-01T00:00:00",
+    "Reader": null
+  }
+]
