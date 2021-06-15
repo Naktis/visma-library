@@ -84,23 +84,6 @@ namespace Library
             return ReadString("Your name: ");
         }
 
-        public string BookNameToBorrow()
-        {
-            Console.Write("Book name: ");
-            string name;
-            do
-            {
-                name = Console.ReadLine();
-                if (_validator.BookExistsAvailable(name) || name == "exit")
-                    break;
-                else
-                    Console.Write("This book hasn't been added to the library. " +
-                                  "Try another book name or exit the action (type exit): ");
-            } while (true);
-
-            return name;
-        }
-
         public string BookNameToReturn(List<Book> books)
         {
             Console.WriteLine("\nYou have borrowed the following books: ");
@@ -228,6 +211,52 @@ namespace Library
                 return "";
             else
                 return ReadString("Filter value: ");
+        }
+
+        public Book ChooseBook()
+        {
+            Console.Write("Book name: ");
+            string name;
+            
+            name = Console.ReadLine();
+            List<Book> matchesByName = _validator.AvailableBooksByName(name);
+
+            if (matchesByName.Count == 0)
+            {
+                Console.WriteLine("There are no available copies of this book at the library.");
+                return null;
+            }
+
+            if (matchesByName.Count == 1)
+            {
+                return matchesByName[0];
+            }
+
+            Console.WriteLine("The following available books match your query:");
+            int index = 1;
+            foreach(Book b in matchesByName)
+            {
+                Console.WriteLine(index + " - " + $"{b.Name,-20} {b.Author,-20} {b.Category,-15} {b.Language,-15} " +
+                                  $"{b.PublicationDate,-20:yyyy-MM-dd} {b.ISBN,-15}");
+                index++;
+            }
+                
+            Console.Write("Enter the number of the book you choose: ");
+            int chosenIndex;
+            do
+            {
+                // Converts the input into int if possible (if not - returns false)
+                if (int.TryParse(Console.ReadLine(), out chosenIndex))
+                {
+                    if (chosenIndex >= 1 && chosenIndex <= index)
+                    {
+                        break;
+                    }
+                }
+                Console.Write("This option doesn't exist. Please enter a valid number: ");
+            } while (true);
+
+            return matchesByName[chosenIndex - 1];
         }
 
         private string ReadString(string label)

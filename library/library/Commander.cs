@@ -22,15 +22,15 @@ namespace Library
             IO.SaveBookList(books);
         }
 
-        public void BorrowBook(string bookName, string readerName, DateTime returnDate)
+        public void BorrowBook(string isbn, string readerName, DateTime returnDate)
         {
             List<Book> books = IO.GetBookList();
-            Book book = books.FirstOrDefault(x => x.Name == bookName);
+            Book bookMatch = books.FirstOrDefault(x => x.ISBN == isbn);
 
-            if (book != null)
+            if (bookMatch != null)
             {
-                book.Reader = readerName;
-                book.ReturnDate = returnDate;
+                bookMatch.Reader = readerName;
+                bookMatch.ReturnDate = returnDate;
             }
 
             IO.SaveBookList(books);
@@ -66,6 +66,13 @@ namespace Library
                 _ => books,
             };
             return filteredBooks;
+        }
+
+        public void DeleteBook(string isbn) {
+            List<Book> books = IO.GetBookList();
+            Book bookMatch = books.FirstOrDefault(x => x.ISBN == isbn);
+            books.Remove(bookMatch);
+            IO.SaveBookList(books);
         }
     }
 }

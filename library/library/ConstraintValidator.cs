@@ -30,16 +30,10 @@ namespace Library
                 return true;
         }
 
-        public bool BookExistsAvailable(string bookName)
+        public List<Book> AvailableBooksByName(string bookName)
         {
             List<Book> books = IO.GetBookList();
-
-            Book bookMatch = books.FirstOrDefault(x => x.Name == bookName && x.Reader == null);
-
-            if (bookMatch != null)
-                return true;
-            else
-                return false;
+            return books.FindAll(x => x.Name == bookName && x.Reader == null);
         }
 
         public bool ReaderHasBooks(string readerName)

@@ -31,7 +31,7 @@ namespace Library.Tests
             string jsonExpected = JsonSerializer.Serialize(bookList, options);
 
             // Act
-            new Commander().BorrowBook(bookList[1].Name, bookList[1].Reader, bookList[1].ReturnDate);
+            new Commander().BorrowBook(bookList[1].ISBN, bookList[1].Reader, bookList[1].ReturnDate);
             string jsonActual = File.ReadAllText(path);
             File.Delete(path);
 
@@ -61,7 +61,7 @@ namespace Library.Tests
         }
 
         [Fact]
-        public void BorrowBook_CantBorrowNonexistantBook()
+        public void BorrowBook_CantBorrowNonexistantBook() // Conditions for deletion is the same
         {
             // Arrange
             string path = "../../../Data/books.json";
@@ -72,15 +72,15 @@ namespace Library.Tests
             File.WriteAllText(path, jsonBookList);
 
             // Act
-            bool bookExists = new ConstraintValidator().BookExistsAvailable("Name2");
+            List<Book> bookMatches = new ConstraintValidator().AvailableBooksByName("Name2");
             File.Delete(path);
 
             // Assert
-            Assert.False(bookExists);
+            Assert.Empty(bookMatches);
         }
 
         [Fact]
-        public void BorrowBook_CantBorrowAlreadyTakenBook()
+        public void BorrowBook_CantBorrowAlreadyTakenBook() // Conditions for deletion is the same
         {
             // Arrange
             string path = "../../../Data/books.json";
@@ -92,11 +92,11 @@ namespace Library.Tests
             File.WriteAllText(path, jsonBookList);
 
             // Act
-            bool bookAvailable = new ConstraintValidator().BookExistsAvailable("Name");
+            List<Book> bookMatches = new ConstraintValidator().AvailableBooksByName("Name");
             File.Delete(path);
 
             // Assert
-            Assert.False(bookAvailable);
+            Assert.Empty(bookMatches);
         }
     }
 }

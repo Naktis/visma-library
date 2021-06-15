@@ -18,12 +18,14 @@ namespace Library
                 int option = userInput.Option();
 
                 string bookName, readerName;
+                Book book;
                 switch (option)
                 {
                     case 1:
                         Console.WriteLine("\nYou have chosen adding a new book. Please enter information about the book:");
-                        commander.AddNewBook(userInput.BookInfo());
-                        Console.WriteLine("A new book has been added.");
+                        book = userInput.BookInfo();
+                        commander.AddNewBook(book);
+                        Console.WriteLine(book.Name + " has been added to the library.");
                         break;
 
                     case 2:
@@ -34,13 +36,14 @@ namespace Library
                         if (readerName == null) // Reader already has 3 borrowed books
                             break;
 
-                        bookName = userInput.BookNameToBorrow();
-                        if (bookName == "exit") // User's decision to stop the action
+                        book = userInput.ChooseBook();
+                        if (book == null)
                             break;
 
                         DateTime returnDate = userInput.ReturnDate();
-                        commander.BorrowBook(bookName, readerName, returnDate);
-                        Console.WriteLine(bookName + " has been borrowed to " + readerName);
+
+                        commander.BorrowBook(book.ISBN, readerName, returnDate);
+                        Console.WriteLine(book.Name + " has been borrowed to " + readerName + ".");
                         break;
 
                     case 3:
@@ -73,9 +76,9 @@ namespace Library
                             Console.WriteLine("\n" + $"{"Name",-20} {"Author",-20} {"Category",-15} {"Language",-15} " +
                                               $"{"Publication date",-20} {"ISBN",-15}");
 
-                            foreach (Book book in filteredBooks)
-                                Console.WriteLine($"{book.Name,-20} {book.Author,-20} {book.Category,-15} {book.Language,-15} " +
-                                                  $"{book.PublicationDate,-20:yyyy-MM-dd} {book.ISBN,-15}");
+                            foreach (Book b in filteredBooks)
+                                Console.WriteLine($"{b.Name,-20} {b.Author,-20} {b.Category,-15} {b.Language,-15} " +
+                                                  $"{b.PublicationDate,-20:yyyy-MM-dd} {b.ISBN,-15}");
                         }
                         else
                         {
@@ -83,7 +86,15 @@ namespace Library
                         }
                         break;
 
-                    default:
+                    default: // Option = 5
+                        Console.WriteLine("\nYou have chosen deleting a book.\nPlease enter information about the book:");
+
+                        book = userInput.ChooseBook();
+                        if (book == null)
+                            break;
+
+                        commander.DeleteBook(book.ISBN);
+                        Console.WriteLine(book.Name + " has been removed from the library.");
                         break;
                 }
             } while (userInput.MoreActions());
