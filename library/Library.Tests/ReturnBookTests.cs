@@ -15,7 +15,6 @@ namespace Library.Tests
         public void ReturnBook_AllValid()
         {
             // Arrange
-            Commander commander = new();
             string path = "../../../Data/books.json";
             JsonSerializerOptions options = new() { WriteIndented = true };
             string readerName = "Reader2";
@@ -35,7 +34,7 @@ namespace Library.Tests
             string jsonExpected = JsonSerializer.Serialize(bookList, options);
 
             // Act
-            commander.ReturnBook(bookList[1].Name, readerName);
+            new Commander().ReturnBook(bookList[1].Name, readerName);
             string jsonActual = File.ReadAllText(path);
             File.Delete(path);
 
@@ -47,19 +46,17 @@ namespace Library.Tests
         public void ReturnBook_ReaderHasntBorrowedAnyBooks()
         {
             // Arrange
-            ConstraintValidator validator = new();
             string path = "../../../Data/books.json";
-            JsonSerializerOptions options = new() { WriteIndented = true };
 
             Book book1 = new("Name", "Author", "Category", "Language", DateTime.Now, "0001234567890");
             Book book2 = new("Name2", "Author2", "Category2", "Language2", DateTime.Now, "0001234567893");
             List<Book> bookList = new() { book1, book2 };
             bookList[0].Reader = "Reader1";
-            string jsonBookList = JsonSerializer.Serialize(bookList, options);
+            string jsonBookList = JsonSerializer.Serialize(bookList, new() { WriteIndented = true });
             File.WriteAllText(path, jsonBookList);
 
             // Act
-            bool readerValid = validator.ReaderHasBooks("Reader2");
+            bool readerValid = new ConstraintValidator().ReaderHasBooks("Reader2");
             File.Delete(path);
 
             // Assert

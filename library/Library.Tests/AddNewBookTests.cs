@@ -13,14 +13,13 @@ namespace Library.Tests
         public void Add_NewBook_ToEmptyLibrary()
         {
             // Arrange
-            Commander commander = new();
             string path = "../../../Data/books.json";
             Book book = new("Name", "Author", "Category", "Language", DateTime.Now, "0001234567890");
             List<Book> booksExpected = new() { book };
             string jsonExpected = JsonSerializer.Serialize(booksExpected, new JsonSerializerOptions { WriteIndented = true });
 
             // Act
-            commander.AddNewBook(book);
+            new Commander().AddNewBook(book);
             string jsonActual = File.ReadAllText(path);
             File.Delete(path);
 
@@ -32,7 +31,6 @@ namespace Library.Tests
         public void Add_NewBook_ToPopulatedLibrary()
         {
             // Arrange (until "Act")
-            Commander commander = new();
             string path = "../../../Data/books.json";
             JsonSerializerOptions options = new() { WriteIndented = true };
 
@@ -52,7 +50,7 @@ namespace Library.Tests
             string jsonExpected = JsonSerializer.Serialize(booksExpected, options);
             
             // Act
-            commander.AddNewBook(book);
+            new Commander().AddNewBook(book);
             string jsonActual = File.ReadAllText(path);
             File.Delete(path);
 
