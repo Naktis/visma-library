@@ -10,7 +10,7 @@ namespace Library
             UserInputReader userInput = new();
             Commander commander = new();
 
-            Console.WriteLine("Welcome to the Visma book library!\nWhat would you like to do?");
+            Console.WriteLine("Welcome to the book library!\nWhat would you like to do?");
 
             do
             {
@@ -27,17 +27,16 @@ namespace Library
                         commander.AddNewBook(book);
                         Console.WriteLine(book.Name + " has been added to the library.");
                         break;
-
                     case 2:
                         Console.WriteLine("\nYou have chosen borrowing a book. Maximum period of keeping the book is 2 months.\n" +
                                           "Please enter information about the order:");
 
                         readerName = userInput.ReaderToBorrowBook();
                         if (readerName == null) // Reader already has 3 borrowed books
-                            break;
+                            break;              // Stops the activity by exiting the switch
 
                         book = userInput.ChooseBook();
-                        if (book == null)
+                        if (book == null)       // The book doesn't exist or all copies are taken
                             break;
 
                         DateTime returnDate = userInput.ReturnDate();
@@ -45,13 +44,12 @@ namespace Library
                         commander.BorrowBook(book.ISBN, readerName, returnDate);
                         Console.WriteLine(book.Name + " has been borrowed to " + readerName + ".");
                         break;
-
                     case 3:
-                        Console.WriteLine("\nYou have chosen returning a book. Please enter information about your order:");
+                        Console.WriteLine("\nYou have chosen returning a book. Please enter information about the order:");
 
                         readerName = userInput.ReaderToReturnBook();
 
-                        List<Book> readerBooks = commander.ListBooks(9, readerName);
+                        List<Book> readerBooks = commander.ListBooks(9, readerName); // Filters books by the reader
                         if(readerBooks.Count == 0)
                         {
                             Console.WriteLine("\nYou don't have any borrowed books. Try borrowing one.");
@@ -63,11 +61,10 @@ namespace Library
                         commander.ReturnBook(bookName, readerName);
                         Console.WriteLine(bookName + " has been returned");
                         break;
-
                     case 4:
                         Console.WriteLine("\nYou have chosen listing books. Please choose a filter: ");
 
-                        int filter = userInput.Filter();
+                        int filter = userInput.Filter(); // Number from 1 to 8
                         string filterLabel = userInput.FilterLabel(filter);
                         List<Book> filteredBooks = commander.ListBooks(filter, filterLabel);
 
@@ -85,12 +82,11 @@ namespace Library
                             Console.WriteLine("\nEntered filter doesn't match any books in the library.");
                         }
                         break;
-
                     default: // Option = 5
                         Console.WriteLine("\nYou have chosen deleting a book.\nPlease enter information about the book:");
 
                         book = userInput.ChooseBook();
-                        if (book == null)
+                        if (book == null)   // Book doesn't exist or is borrowed by someone
                             break;
 
                         commander.DeleteBook(book.ISBN);

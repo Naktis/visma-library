@@ -61,7 +61,7 @@ namespace Library.Tests
         }
 
         [Fact]
-        public void BorrowBook_CantBorrowNonexistantBook() // Conditions for deletion is the same
+        public void BorrowBook_CantBorrowNonexistantBook() // Conditions for deletion are the same
         {
             // Arrange
             string path = "../../../Data/books.json";
@@ -80,7 +80,7 @@ namespace Library.Tests
         }
 
         [Fact]
-        public void BorrowBook_CantBorrowAlreadyTakenBook() // Conditions for deletion is the same
+        public void BorrowBook_CantBorrowAlreadyTakenBook() // Conditions for deletion are the same
         {
             // Arrange
             string path = "../../../Data/books.json";

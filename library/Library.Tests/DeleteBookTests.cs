@@ -17,7 +17,7 @@ namespace Library.Tests
             // Arrange
             string path = "../../../Data/books.json";
             JsonSerializerOptions options = new() { WriteIndented = true };
-            Book bookToRemove = new Book("Name2", "Author2", "Category2", "Language2", DateTime.Now, "0001234567893");
+            Book bookToRemove = new("Name2", "Author2", "Category2", "Language2", DateTime.Now, "0001234567893");
 
             List<Book> bookList = new()
             {

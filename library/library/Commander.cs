@@ -27,7 +27,7 @@ namespace Library
             List<Book> books = IO.GetBookList();
             Book bookMatch = books.FirstOrDefault(x => x.ISBN == isbn);
 
-            if (bookMatch != null)
+            if (bookMatch != null) // Book exists
             {
                 bookMatch.Reader = readerName;
                 bookMatch.ReturnDate = returnDate;
@@ -41,7 +41,7 @@ namespace Library
             List<Book> books = IO.GetBookList();
             Book bookMatch = books.FirstOrDefault(x => x.Reader == readerName && x.Name == bookName);
 
-            if (bookMatch != null)
+            if (bookMatch != null) // Book exists
             {
                 bookMatch.Reader = null;
                 bookMatch.ReturnDate = DateTime.MinValue;
@@ -62,8 +62,8 @@ namespace Library
                 6 => books.FindAll(x => x.Name == label),
                 7 => books.FindAll(x => x.Reader == null), // Available
                 8 => books.FindAll(x => x.Reader != null), // Taken
-                9 => books.FindAll(x => x.Reader == label),
-                _ => books,
+                9 => books.FindAll(x => x.Reader == label),// Get all reader's books
+                _ => books, // No filter, option = 1
             };
             return filteredBooks;
         }
@@ -71,7 +71,10 @@ namespace Library
         public void DeleteBook(string isbn) {
             List<Book> books = IO.GetBookList();
             Book bookMatch = books.FirstOrDefault(x => x.ISBN == isbn);
-            books.Remove(bookMatch);
+
+            if (bookMatch != null) // Book exists
+                books.Remove(bookMatch);
+
             IO.SaveBookList(books);
         }
     }

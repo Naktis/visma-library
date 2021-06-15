@@ -30,12 +30,9 @@ namespace Library
             {
                 // Converts the input into int if possible (if not - returns false)
                 if (int.TryParse(Console.ReadLine(), out option))
-                {
                     if (option >= 1 && option <= 5)
-                    {
                         break;
-                    }
-                }
+                
                 Console.Write("This option doesn't exist. Please enter a valid number: ");
             } while (true);
             return option;
@@ -53,13 +50,21 @@ namespace Library
             do
             {
                 if (DateTime.TryParse(Console.ReadLine(), out date))
-                {
                     break;
-                }
+                
                 Console.Write("Entered date is invalid. Please try again: ");
             } while (true);
 
-            string isbn = ReadString("ISBN: ");
+            Console.Write("ISBN: ");
+            string isbn;
+            do
+            {
+                isbn = Console.ReadLine();
+                if (isbn.All(char.IsDigit)) // Checks if all chars in entered string are digits
+                    break;
+
+                Console.Write("Entered code contains non-digit characters. Please enter a valid code: ");
+            } while (true);
 
             return new Book(name, author, category, language, date, isbn);
         }
@@ -68,7 +73,7 @@ namespace Library
         {
             string name = ReadString("Your name: ");
 
-            if (!_validator.BookLimitReached(name))
+            if (!_validator.BookLimitReached(name)) // Checks whether reader is eligible to borrow more books
             {
                 return name;
             }
@@ -89,9 +94,7 @@ namespace Library
             Console.WriteLine("\nYou have borrowed the following books: ");
 
             foreach(Book book in books)
-            {
                 Console.WriteLine(book.Name);
-            }
 
             Console.Write("\nEnter the name of the book you want to return: ");
             Book bookMatch;
@@ -127,14 +130,13 @@ namespace Library
                     returnDate = DateTime.Today.AddDays(days);
                     if (days >= 1)
                     {
+                        // Return month and max period month aren't the same
                         if (returnDate.Month < maxMonth)
-                        {
                             break;
-                        }
+                       
+                        // Return month and max period month match, but 2 month constraint isn't violated
                         else if (returnDate.Month == maxMonth && returnDate.Day <= DateTime.Today.Day)
-                        {
                             break;
-                        }
                     }
                 }
                 Console.Write("Entered date is invalid. Please try again: ");
@@ -166,14 +168,10 @@ namespace Library
             int option;
             do
             {
-                // Converts the input into int if possible (if not - returns false)
                 if (int.TryParse(Console.ReadLine(), out option))
-                {
                     if (option >= 1 && option <= 7)
-                    {
                         break;
-                    }
-                }
+                
                 Console.Write("This option doesn't exist. Please enter a valid number: ");
             } while (true);
 
@@ -189,10 +187,10 @@ namespace Library
                     {
                         if (option == 1) // Available
                         {
-                            option = 7;  // Number for commander class switch
+                            option = 7;  // This number will be used in commander class listing method
                             break;
                         }
-                        if (option == 2)
+                        if (option == 2) // Taken
                         {
                             option = 8;
                             break;
@@ -207,7 +205,7 @@ namespace Library
 
         public string FilterLabel(int option)
         {
-            if (option == 1 || option == 7 || option == 8) // No filter, available and taken
+            if (option == 1 || option == 7 || option == 8) // No filter, available or taken
                 return "";
             else
                 return ReadString("Filter value: ");
@@ -219,6 +217,8 @@ namespace Library
             string name;
             
             name = Console.ReadLine();
+
+            // Books that match the name and aren't taken
             List<Book> matchesByName = _validator.AvailableBooksByName(name);
 
             if (matchesByName.Count == 0)
@@ -228,31 +228,27 @@ namespace Library
             }
 
             if (matchesByName.Count == 1)
-            {
                 return matchesByName[0];
-            }
 
             Console.WriteLine("The following available books match your query:");
+            Console.WriteLine("\n" + $"{"Index",-5} {"Name",-20} {"Author",-20} {"Category",-15} {"Language",-15} " +
+                                              $"{"Publication date",-20} {"ISBN",-15}");
             int index = 1;
             foreach(Book b in matchesByName)
             {
-                Console.WriteLine(index + " - " + $"{b.Name,-20} {b.Author,-20} {b.Category,-15} {b.Language,-15} " +
+                Console.WriteLine(index + "     " + $"{b.Name,-20} {b.Author,-20} {b.Category,-15} {b.Language,-15} " +
                                   $"{b.PublicationDate,-20:yyyy-MM-dd} {b.ISBN,-15}");
                 index++;
             }
                 
-            Console.Write("Enter the number of the book you choose: ");
+            Console.Write("Enter the index of the book you choose: ");
             int chosenIndex;
             do
             {
-                // Converts the input into int if possible (if not - returns false)
                 if (int.TryParse(Console.ReadLine(), out chosenIndex))
-                {
                     if (chosenIndex >= 1 && chosenIndex <= index)
-                    {
                         break;
-                    }
-                }
+
                 Console.Write("This option doesn't exist. Please enter a valid number: ");
             } while (true);
 

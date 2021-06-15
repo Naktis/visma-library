@@ -11,13 +11,15 @@ namespace Library
 {
     public class ConstraintValidator
     {
-        private readonly FileManipulator IO; // input/output
+        private readonly FileManipulator IO; // File input/output
 
         public ConstraintValidator()
         {
             IO = new();
         }
 
+        // This method is called before allowing user to borrow books
+        // Returns true, if the reader has already borrowed 3 books
         public bool BookLimitReached(string readerName)
         {
             List<Book> books = IO.GetBookList();
@@ -30,12 +32,16 @@ namespace Library
                 return true;
         }
 
+        // This method is called when it's wanted to borrow or delete a book to
+        //      check if it's eligible for the action
+        // Returns all copies of books that share the same name and aren't borrowed
         public List<Book> AvailableBooksByName(string bookName)
         {
             List<Book> books = IO.GetBookList();
             return books.FindAll(x => x.Name == bookName && x.Reader == null);
         }
 
+        // This method is called before allowing reader to return anything
         public bool ReaderHasBooks(string readerName)
         {
             List<Book> books = IO.GetBookList();
